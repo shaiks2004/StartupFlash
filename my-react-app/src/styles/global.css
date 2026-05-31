@@ -17,6 +17,14 @@
   --page-max: 1440px;
   --content-max: 1320px;
   --reading-max: 760px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.12);
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
 }
 
 * {
@@ -55,6 +63,13 @@ button {
   font-family: inherit;
 }
 
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+
 .app-shell {
   min-height: 100vh;
   display: flex;
@@ -63,6 +78,13 @@ button {
 
 .main-content {
   flex: 1;
+}
+
+.route-fallback {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 24px clamp(18px, 3vw, var(--space-3));
+  color: var(--muted);
 }
 
 .home,
@@ -96,8 +118,9 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 10px var(--space-3);
+  gap: 20px;
+  min-height: 70px;
+  padding: 8px var(--space-3);
   max-width: var(--page-max);
   margin: 0 auto;
 }
@@ -108,9 +131,15 @@ button {
 }
 
 .logo img {
-  height: 32px;
+  height: 40px;
   width: auto;
   transition: opacity 0.2s ease;
+}
+
+.logo-fallback {
+  font-family: "Playfair Display", serif;
+  font-size: 20px;
+  font-weight: 700;
 }
 
 .logo:hover img {
@@ -119,16 +148,17 @@ button {
 
 .desktop-nav {
   display: flex;
-  gap: var(--space-2);
-  font-size: 11px;
-  letter-spacing: 0.06em;
+  gap: 18px;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  font-weight: 600;
   text-transform: uppercase;
 }
 
 .desktop-nav a {
   position: relative;
-  padding-bottom: 4px;
-  transition: opacity 0.2s ease;
+  padding: 4px 0;
+  transition: opacity 0.2s ease, color 0.2s ease;
 }
 
 .desktop-nav a::after {
@@ -152,13 +182,13 @@ button {
 }
 
 .desktop-nav a.active {
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .header-right {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .icon-btn,
@@ -169,11 +199,12 @@ button {
   cursor: pointer;
   border-radius: 999px;
   transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  border-radius: var(--radius-lg);
 }
 
 .icon-btn {
-  width: 34px;
-  height: 34px;
+  width: 38px;
+  height: 38px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -189,9 +220,10 @@ button {
 .subscribe-btn,
 .featured-btn {
   border: 1px solid var(--text);
-  padding: 8px 12px;
+  padding: 9px 14px;
   font-size: 11px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
+  font-weight: 700;
   text-transform: uppercase;
   border-radius: 999px;
   transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
@@ -206,6 +238,14 @@ button {
   transform: translateY(-1px);
   background: var(--bg);
   color: var(--text);
+}
+
+.subscribe-btn:hover {
+  box-shadow: var(--shadow-sm);
+}
+
+.featured-btn:hover {
+  box-shadow: var(--shadow-md);
 }
 .mobile-menu-btn {
   display: none;
@@ -264,6 +304,7 @@ button {
   border: none;
   font-size: 13px;
   letter-spacing: 0.14em;
+  font-weight: 600;
 }
 
 .mobile-nav a {
@@ -589,6 +630,8 @@ button {
   grid-template-columns: 1.2fr 1.3fr;
   gap: 32px;
   border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
   padding: 24px;
   margin-top: 16px;
 }
@@ -642,6 +685,9 @@ button {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .feed-section {
@@ -674,15 +720,18 @@ button {
 
 .article-card {
   border: 1px solid var(--border);
+  border-radius: var(--radius-md);
   height: 100%;
   background: var(--bg);
   display: flex;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+  overflow: hidden;
 }
 
 .article-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  transform: translateY(-3px);
+  border-color: #bdbdbd;
+  box-shadow: var(--shadow-md);
 }
 
 .article-link {
@@ -705,10 +754,10 @@ button {
 }
 
 .article-body {
-  padding: 16px;
+  padding: 18px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   flex: 1;
 }
 
@@ -720,9 +769,9 @@ button {
 }
 
 .article-title {
-  font-size: 20px;
+  font-size: 21px;
   margin: 0;
-  line-height: 1.3;
+  line-height: 1.25;
   transition: opacity 0.2s ease;
 }
 
@@ -733,7 +782,7 @@ button {
 .article-excerpt {
   color: var(--muted);
   margin: 0;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .article-card.featured .article-title {
@@ -754,7 +803,9 @@ button {
 .sponsored-card {
   border: 1px dashed var(--border);
   padding: var(--space-3);
-  background: var(--soft);
+  background: linear-gradient(180deg, #fafafa 0%, #f3f3f3 100%);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
   min-height: 0;
   height: 100%;
   display: flex;
@@ -780,6 +831,14 @@ button {
   padding-bottom: 2px;
 }
 
+.section-link,
+.feed-label,
+.page-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .article-meta {
   font-size: 12px;
   color: var(--muted);
@@ -802,6 +861,9 @@ button {
 
 .newsletter {
   border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  background: linear-gradient(180deg, #ffffff 0%, #f8f8f8 100%);
   padding: var(--space-4);
   display: flex;
   justify-content: space-between;
@@ -812,35 +874,72 @@ button {
 .newsletter h2 {
   font-family: "Playfair Display", serif;
   margin: var(--space-2) 0 0;
-  font-size: 28px;
-  line-height: 1.2;
+  font-size: clamp(30px, 3.2vw, 40px);
+  line-height: 1.15;
+  max-width: 22ch;
 }
 
 .newsletter-form {
   display: flex;
   gap: 12px;
+  align-items: center;
 }
 
 .newsletter-form input {
   border: 1px solid var(--border);
-  padding: 10px 12px;
-  min-width: 240px;
+  padding: 12px 14px;
+  min-width: 260px;
+  border-radius: var(--radius-sm);
+  background: #fff;
 }
 
 .newsletter-form button {
   border: 1px solid var(--text);
   background: var(--text);
   color: var(--bg);
-  padding: 10px 16px;
+  padding: 12px 18px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-size: 12px;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.newsletter-form button:hover {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.newsletter-form button:disabled,
+.newsletter-form input:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.newsletter-status {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.newsletter-error,
+.newsletter-success {
+  margin: 0;
+  font-size: 13px;
+}
+
+.newsletter-error {
+  color: #8b1e1e;
+}
+
+.newsletter-success {
+  color: #1f6b3b;
 }
 
 .footer {
   border-top: 1px solid var(--border);
   padding: var(--space-6) var(--space-3) var(--space-5);
-  background: var(--bg);
+  background: linear-gradient(180deg, #f9f9f9 0%, #f2f2f2 100%);
+  margin-top: var(--space-5);
 }
 
 .footer-top {
@@ -860,7 +959,12 @@ button {
 .footer-links a {
   display: block;
   color: var(--muted);
-  margin-top: 6px;
+  margin-top: 8px;
+  transition: color var(--transition-fast);
+}
+
+.footer-links a:hover {
+  color: var(--text);
 }
 
 .footer-bottom {
@@ -874,6 +978,11 @@ button {
   color: var(--muted);
 }
 
+.footer-bottom div {
+  display: inline-flex;
+  gap: 12px;
+}
+
 .search-modal {
   position: fixed;
   inset: 0;
@@ -883,22 +992,33 @@ button {
 .search-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.68);
+  backdrop-filter: blur(2px);
 }
 
 .search-panel {
   position: relative;
   background: var(--bg);
-  max-width: min(560px, 90vw);
-  margin: 10vh auto;
-  padding: 24px;
+  max-width: min(640px, 92vw);
+  margin: 9vh auto;
+  padding: 28px;
   border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+}
+
+.search-panel h3 {
+  margin: 0 0 14px;
+  font-size: 30px;
+  line-height: 1.1;
+  font-family: "Playfair Display", serif;
 }
 
 .search-panel input {
   width: 100%;
-  padding: 12px 14px;
+  padding: 13px 14px;
   border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
 }
 
 .search-close {
@@ -909,12 +1029,18 @@ button {
   background: none;
   font-size: 18px;
   cursor: pointer;
+  border-radius: var(--radius-lg);
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .search-suggestions {
-  margin-top: 16px;
+  margin-top: 18px;
   display: grid;
-  gap: 12px;
+  gap: 14px;
 }
 
 .search-suggestions a {
@@ -922,7 +1048,7 @@ button {
   justify-content: space-between;
   gap: 12px;
   border-bottom: 1px solid var(--border);
-  padding-bottom: 8px;
+  padding-bottom: 10px;
 }
 
 .page-header {
@@ -965,7 +1091,8 @@ button {
 .sponsor-mini {
   border: 1px dashed var(--border);
   padding: 10px 12px;
-  background: var(--soft);
+  background: linear-gradient(180deg, #ffffff 0%, #f5f5f5 100%);
+  border-radius: var(--radius-md);
   font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -1035,6 +1162,13 @@ button {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-size: 12px;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.load-more:hover {
+  background: var(--bg);
+  color: var(--text);
 }
 
 .article-page {
@@ -1254,9 +1388,11 @@ button {
   letter-spacing: 0.14em;
   font-size: 11px;
   color: var(--muted);
-  background: var(--soft);
+  background: linear-gradient(180deg, #fafafa 0%, #f4f4f4 100%);
   margin: var(--space-4) auto;
   max-width: var(--content-max);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
 }
 
 .ad-banner strong {
@@ -1280,11 +1416,12 @@ button {
   padding: var(--space-3);
   margin: var(--space-4) 0;
   text-align: center;
-  background: var(--soft);
+  background: linear-gradient(180deg, #fafafa 0%, #f4f4f4 100%);
   text-transform: uppercase;
   letter-spacing: 0.12em;
   font-size: 11px;
   color: var(--muted);
+  border-radius: var(--radius-md);
 }
 
 .ad-inline strong {
@@ -1337,17 +1474,18 @@ button {
 
 @media (max-width: 1024px) {
   .header-container {
-    padding: 10px 20px;
+    padding: 8px 20px;
+    min-height: 56px;
   }
 
   .desktop-nav {
-    gap: 12px;
+    gap: 10px;
     font-size: 10px;
   }
 
   .subscribe-btn,
   .featured-btn {
-    padding: 7px 10px;
+    padding: 8px 11px;
     font-size: 10px;
   }
 
@@ -1435,8 +1573,9 @@ button {
   }
 
   .header-container {
-    flex-wrap: wrap;
-    gap: 10px;
+    flex-wrap: nowrap;
+    gap: 8px;
+    min-height: 54px;
   }
 
   .ticker-inner {
@@ -1499,6 +1638,10 @@ button {
     gap: 12px;
     align-items: flex-start;
   }
+
+  .search-panel h3 {
+    font-size: 26px;
+  }
 }
 
 @media (max-width: 640px) {
@@ -1515,7 +1658,7 @@ button {
   }
 
   .header-right {
-    width: 100%;
+    width: auto;
     justify-content: flex-end;
   }
 
@@ -1544,5 +1687,16 @@ button {
 
   .article-content {
     font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

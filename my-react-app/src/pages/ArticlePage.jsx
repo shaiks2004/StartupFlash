@@ -1,6 +1,7 @@
-import { useMemo } from "react"
+import { useMemo, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import { Helmet } from "react-helmet-async"
+import { ArrowLeft, Dot, Link as LinkIcon } from "lucide-react"
 import DOMPurify from "dompurify"
 import { usePost } from "../hooks/usePost"
 import { usePosts } from "../hooks/usePosts"
@@ -19,6 +20,7 @@ import AdBanner from "../components/AdBanner"
 function ArticlePage() {
   const { slug } = useParams()
   const { post, loading, error } = usePost({ slug })
+  const [heroFailed, setHeroFailed] = useState(false)
 
   const sanitized = useMemo(() => {
     const { content, hero } = extractHeroImageFromContent(
@@ -49,7 +51,7 @@ function ArticlePage() {
   const description = stripHtml(post.excerpt?.rendered || "")
   const shareUrl = encodeURIComponent(canonical)
   const shareTitle = encodeURIComponent(stripHtml(post.title?.rendered || ""))
-  const heroImage = sanitized.hero?.src || ""
+  const heroImage = heroFailed ? "" : sanitized.hero?.src || ""
   const related = relatedPosts.filter((item) => item.id !== post.id).slice(0, 3)
   const showRelated = related.length >= 3
   const jsonLd = {
@@ -101,29 +103,30 @@ function ArticlePage() {
 
       <header className="article-hero">
         <Link to="/" className="back-link">
-          ← Back to home
+          <ArrowLeft size={14} aria-hidden="true" /> Back to home
         </Link>
-        <h1 dangerouslySetInnerHTML={{ __html: post.title?.rendered || "" }} />
+        <h1 dangerouslySetInnerHTML={{ __html: post.title?.rendered || "Untitled story" }} />
         <div className="article-meta">
           <span>{post._embedded?.author?.[0]?.name || "StartupFlash"}</span>
-          <span>•</span>
+          <span><Dot size={14} aria-hidden="true" /></span>
           <span>{formatDate(post.date)}</span>
-          <span>•</span>
+          <span><Dot size={14} aria-hidden="true" /></span>
           <span>{readTime}</span>
         </div>
         {heroImage && (
           <img
             src={heroImage}
-            alt={sanitized.hero?.alt || post.title?.rendered || ""}
+            alt={sanitized.hero?.alt || post.title?.rendered || "Article hero image"}
             loading="lazy"
             decoding="async"
+            onError={() => setHeroFailed(true)}
           />
         )}
       </header>
 
       <div className="article-share-mobile">
         <span>Share</span>
-        <button onClick={handleCopy}>Copy link</button>
+        <button onClick={handleCopy} type="button"><LinkIcon size={12} aria-hidden="true" /> Copy link</button>
         <a
           href={`https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareTitle}`}
           target="_blank"
@@ -165,7 +168,7 @@ function ArticlePage() {
       <div className="article-layout">
         <aside className="article-share-sidebar">
           <span>Share</span>
-          <button onClick={handleCopy}>Copy link</button>
+          <button onClick={handleCopy} type="button">Copy link</button>
           <a
             href={`https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareTitle}`}
             target="_blank"
@@ -218,6 +221,17 @@ function ArticlePage() {
               <ArticleCard key={item.id} post={item} />
             ))}
           </div>
+        </section>
+      )}
+      {!showRelated && (
+        <section className="related-articles">
+          <div className="section-header">
+            <div>
+              <p>RELATED</p>
+              <h2>Related stories</h2>
+            </div>
+          </div>
+          <p className="error-text">No related stories available yet.</p>
         </section>
       )}
     </article>

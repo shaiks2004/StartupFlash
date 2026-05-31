@@ -1,8 +1,23 @@
+const isValidHttpUrl = (value = "") => {
+  if (!value) {
+    return false
+  }
+
+  try {
+    const url = new URL(value)
+    return url.protocol === "http:" || url.protocol === "https:"
+  } catch {
+    return false
+  }
+}
+
 export const stripHtml = (html = "") =>
   html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim()
 
 export const getFeaturedImage = (post) =>
-  post?._embedded?.["wp:featuredmedia"]?.[0]?.source_url || ""
+  isValidHttpUrl(post?._embedded?.["wp:featuredmedia"]?.[0]?.source_url)
+    ? post._embedded["wp:featuredmedia"][0].source_url
+    : ""
 
 export const getAuthorName = (post) =>
   post?._embedded?.author?.[0]?.name || "StartupFlash"

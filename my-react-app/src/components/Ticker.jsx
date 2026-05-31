@@ -1,52 +1,31 @@
+import { TrendingUp } from "lucide-react"
 
 function Ticker({ items = [] }) {
   const repeated = items.length ? [...items, ...items] : []
 
   return (
-
-    <div className="ticker">
-
+    <div className="ticker" aria-label="Trending stories">
       <div className="ticker-inner">
-
-        {/* LEFT LABEL */}
-
         <div className="ticker-heading">
-
-          ↗ TRENDING
-
+          <TrendingUp size={13} aria-hidden="true" /> TRENDING
         </div>
-
-        {/* SCROLL AREA */}
 
         <div className="ticker-scroll">
-
           <div className="ticker-track">
-
             {repeated.map((item, index) => (
-
               <span
-                key={index}
+                key={`${item}-${index}`}
                 className="ticker-item"
               >
-
-                <span className="ticker-circle"></span>
-
-                {item}
-
+                <span className="ticker-circle" />
+                {item || "Untitled story"}
               </span>
-
             ))}
-
           </div>
-
         </div>
-
       </div>
-
     </div>
-
   )
-
 }
 
 export default Ticker

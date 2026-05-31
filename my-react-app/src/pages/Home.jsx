@@ -55,6 +55,12 @@ function Home() {
       ) : (
         <HeroEditorial hero={hero} topStories={topStories} />
       )}
+      {!loading && error && !hero && (
+        <p className="error-text">Unable to load latest stories right now.</p>
+      )}
+      {!loading && !error && !hero && (
+        <p className="error-text">No featured stories are available yet.</p>
+      )}
       <AdBanner variant="leaderboard" />
       {loading && !spotlight ? (
         <LoadingSkeleton lines={3} />

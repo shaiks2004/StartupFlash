@@ -3,6 +3,7 @@ const API_BASE_URL =
 
 const cache = new Map()
 const DEFAULT_TTL_MS = 60 * 1000
+const DEFAULT_TIMEOUT_MS = 12000
 
 const buildQuery = (params = {}) => {
   const query = new URLSearchParams()
@@ -38,13 +39,54 @@ const fetchJson = async (path, params, options = {}) => {
     return cached.data
   }
 
-  const response = await fetch(url)
+  const controller = new AbortController()
+  const timeoutMs = options.timeoutMs || DEFAULT_TIMEOUT_MS
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs)
+
+  let response
+  try {
+    response = await fetch(url, { signal: controller.signal })
+  } catch (error) {
+    if (error.name === "AbortError") {
+      throw new Error("Request timed out")
+    }
+
+    throw new Error("Network request failed")
+  } finally {
+    clearTimeout(timeoutId)
+  }
+
   if (!response.ok) {
     throw new Error(`Request failed: ${response.status}`)
   }
 
-  const data = await response.json()
+  let data
+  try {
+    data = await response.json()
+  } catch {
+    throw new Error("Invalid server response")
+  }
+
+  if (!Array.isArray(data) && typeof data !== "object") {
+    throw new Error("Invalid server response")
+  }
+
   cache.set(cacheKey, { data, timestamp: now })
+  return data
+}
+
+const postJson = async (path, body) => {
+  const response = await fetch(`${API_BASE_URL}${path}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body)
+  })
+
+  const data = await response.json().catch(() => ({}))
+  if (!response.ok) {
+    throw new Error(data.error || data.details || `Request failed: ${response.status}`)
+  }
+
   return data
 }
 
@@ -64,3 +106,6 @@ export const getPostsByCategory = (categoryId, params = {}) =>
 
 export const searchPosts = (query, params = {}) =>
   fetchJson("/posts", { search: query, ...params })
+
+export const subscribeToNewsletter = (email) =>
+  postJson("/newsletter", { email })

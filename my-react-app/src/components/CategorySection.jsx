@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import { ArrowUpRight } from "lucide-react"
 import { usePosts } from "../hooks/usePosts"
 import ArticleCard from "./ArticleCard"
 import LoadingSkeleton from "./LoadingSkeleton"
@@ -16,7 +17,9 @@ function CategorySection({ title, categoryId, slug }) {
           <p>SECTION</p>
           <h2>{title}</h2>
         </div>
-        <Link to={`/${slug}`}>View all ↗</Link>
+        <Link to={`/${slug}`} className="section-link">
+          View all <ArrowUpRight size={14} aria-hidden="true" />
+        </Link>
       </div>
 
       {loading && <LoadingSkeleton lines={2} />}

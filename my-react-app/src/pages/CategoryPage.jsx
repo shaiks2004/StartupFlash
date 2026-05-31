@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom"
 import { Helmet } from "react-helmet-async"
 import { useMemo } from "react"
+import { ArrowUpRight } from "lucide-react"
 import { useCategories } from "../hooks/useCategories"
 import { usePosts } from "../hooks/usePosts"
 import ArticleCard from "../components/ArticleCard"
@@ -68,7 +69,7 @@ function CategoryPage() {
             <p className="page-description">{matchedCategory.description}</p>
           )}
           <Link to="/" className="page-back">
-            Back to home ↗
+            Back to home <ArrowUpRight size={14} aria-hidden="true" />
           </Link>
         </div>
         <div className="category-header-ads">
@@ -115,8 +116,12 @@ function CategoryPage() {
         ))}
       </div>
 
+      {!categoriesLoading && !loading && !error && posts.length === 0 && (
+        <p className="error-text">No stories are available in this section yet.</p>
+      )}
+
       {hasMore && (
-        <button className="load-more" onClick={loadMore}>
+        <button className="load-more" onClick={loadMore} type="button">
           Load more
         </button>
       )}

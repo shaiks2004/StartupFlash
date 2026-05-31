@@ -91,10 +91,14 @@ export const insertInlineAdAfterFirstParagraph = (html = "") => {
 
 export const formatDate = (value) => {
   if (!value) {
-    return ""
+    return "Date unavailable"
   }
 
   const date = new Date(value)
+  if (Number.isNaN(date.getTime())) {
+    return "Date unavailable"
+  }
+
   return date.toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",

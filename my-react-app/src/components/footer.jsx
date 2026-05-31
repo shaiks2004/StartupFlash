@@ -40,7 +40,7 @@ function Footer() {
       </div>
 
       <div className="footer-bottom">
-        <p>Â© 2026 StartupFlash. All rights reserved.</p>
+        <p>© 2026 StartupFlash. All rights reserved.</p>
         <div>
           <a href="#">Privacy</a>
           <a href="#">Terms</a>
