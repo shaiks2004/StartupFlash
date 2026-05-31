@@ -24,27 +24,33 @@ function Footer() {
 
           <div>
             <h4>Company</h4>
-            <a href="#">About</a>
-            <a href="#">Contact</a>
-            <a href="#">Advertise</a>
-            <a href="#featured">Get Featured</a>
+            <Link to="/aboutus">About</Link>
+            <Link to="/contact">Contact</Link>
+            <Link to="/advertise">Advertise</Link>
+            <Link to="/featured">Get Featured</Link>
           </div>
 
           <div>
             <h4>Social</h4>
-            <a href="#">Twitter</a>
-            <a href="#">LinkedIn</a>
-            <a href="#">Instagram</a>
+            <Link to="https://twitter.com/startup_flash" target="_blank" rel="noopener noreferrer">
+              Twitter
+            </Link>
+            <Link to="https://www.linkedin.com/company/startupflash" target="_blank" rel="noopener noreferrer">
+              LinkedIn
+            </Link>
+            <Link to="https://www.instagram.com/startup_flash/?hl=en" target="_blank" rel="noopener noreferrer">
+              Instagram
+            </Link>
           </div>
         </div>
       </div>
 
       <div className="footer-bottom">
-        <p>© 2026 StartupFlash. All rights reserved.</p>
+        <p>ï¿½ 2026 StartupFlash. All rights reserved.</p>
         <div>
-          <a href="#">Privacy</a>
-          <a href="#">Terms</a>
-          <a href="#">Cookies</a>
+          <Link to="/privacy">Privacy</Link>
+          <Link to="/terms">Terms</Link>
+          <Link to="/cookies">Cookies</Link>
         </div>
       </div>
     </footer>

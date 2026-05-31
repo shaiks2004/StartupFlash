@@ -31,7 +31,9 @@ function App() {
           <Route path="/flash-view" element={<CategoryPage />} />
           <Route path="/article/:slug" element={<ArticlePage />} />
           <Route path="/search" element={<SearchPage />} />
+          {/* <Route path="/aboutus" element={<AboutUs />} /> */}
           <Route path="*" element={<NotFound />} />
+
         </Route>
       </Routes>
     </Suspense>
