@@ -38,7 +38,8 @@ const fetchJson = async (path, params, options = {}) => {
   if (cached && now - cached.timestamp < (options.ttlMs || DEFAULT_TTL_MS)) {
     return cached.data
   }
-
+  console.log("VITE_API_BASE_URL =", import.meta.env.VITE_API_BASE_URL)
+  console.log("API_BASE_URL =", API_BASE_URL)
   const controller = new AbortController()
   const timeoutMs = options.timeoutMs || DEFAULT_TIMEOUT_MS
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs)
