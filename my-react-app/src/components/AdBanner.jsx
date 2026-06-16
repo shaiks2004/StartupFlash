@@ -1,10 +1,24 @@
-function AdBanner({ label = "Advertisement", variant = "leaderboard" }) {
+import { useEffect } from "react";
+
+function AdBanner() {
+  useEffect(() => {
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (e) {
+      console.log(e);
+    }
+  }, []);
+
   return (
-    <div className={`ad-banner ad-${variant}`} role="complementary" aria-label={label}>
-      <span>{label}</span>
-      <strong>Premium sponsor placement</strong>
-    </div>
-  )
+    <ins
+      className="adsbygoogle"
+      style={{ display: "block" }}
+      data-ad-client="ca-pub-5221720151682078"
+      data-ad-slot="1748339709"
+      data-ad-format="auto"
+      data-full-width-responsive="true"
+    />
+  );
 }
 
-export default AdBanner
+export default AdBanner;

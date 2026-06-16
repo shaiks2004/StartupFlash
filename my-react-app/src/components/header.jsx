@@ -2,16 +2,30 @@ import { useEffect, useRef, useState } from "react"
 import { NavLink } from "react-router-dom"
 import { Menu, Search, X } from "lucide-react"
 
+// const NAV_ITEMS = [
+//   { label: "Home", to: "/" },
+//   { label: "Flash View", to: "/flash-view" },
+//   {label : "Metrics", to: "/metrics" },
+//   { label: "Funding", to: "/funding" },
+//   { label: "Founders", to: "/founders" },
+//   { label: "Companies", to: "/companies" },
+//   {label: "Library", to: "/library" },
+
+//   { label: "AI", to: "/ai" },
+//   { label: "Insights", to: "/insights" }
+// ]
+
+
 const NAV_ITEMS = [
   { label: "Home", to: "/" },
   { label: "Flash View", to: "/flash-view" },
+  { label: "Metrics", to: "/metrics" },
   { label: "Funding", to: "/funding" },
-  { label: "Startup Stories", to: "/startup-stories" },
   { label: "Founders", to: "/founders" },
   { label: "Companies", to: "/companies" },
-  { label: "AI", to: "/ai" },
-  { label: "Insights", to: "/insights" }
+  { label: "Library", to: "/library" }
 ]
+
 
 function Header({ onSearchOpen }) {
   const [scrolled, setScrolled] = useState(false)
@@ -129,14 +143,13 @@ function Header({ onSearchOpen }) {
           <a className="subscribe-btn" href="#newsletter">
             Subscribe
           </a>
-          <a
-            className="featured-btn"
-            href="https://thestartupflash.in/get-featured/"
-            target="_blank"
-            rel="noreferrer"
+          <NavLink
+            className="mobile-nav-featured, featured-btn"
+            to="/get-featured"
+            onClick={() => setMobileMenu(false)}
           >
-            Get Featured
-          </a>
+            Get Featured 🚀
+          </NavLink>
           <button
             className="mobile-menu-btn"
             onClick={() => setMobileMenu((prev) => !prev)}
@@ -188,14 +201,12 @@ function Header({ onSearchOpen }) {
               <a className="mobile-nav-link" href="#newsletter">
                 Subscribe
               </a>
-              <a
-                className="mobile-nav-featured"
-                href="https://thestartupflash.in/get-featured/"
-                target="_blank"
-                rel="noreferrer"
+              <NavLink
+                className="featured-btn, featured-btn-mobile"
+                to="/get-featured"
               >
-                Get Featured
-              </a>
+                Get Featured 🚀
+              </NavLink>
             </div>
           </div>
         </div>
