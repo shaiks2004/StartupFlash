@@ -1,16 +1,24 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 function AdBanner() {
+  const adRef = useRef(null);
+  const hasRequestedAd = useRef(false);
+
   useEffect(() => {
+    if (hasRequestedAd.current || !adRef.current) {
+      return;
+    }
+
+    hasRequestedAd.current = true;
+
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
-    } catch (e) {
-      console.log(e);
-    }
+    } catch {}
   }, []);
 
   return (
     <ins
+      ref={adRef}
       className="adsbygoogle"
       style={{ display: "block" }}
       data-ad-client="ca-pub-5221720151682078"

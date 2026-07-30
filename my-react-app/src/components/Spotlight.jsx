@@ -50,11 +50,11 @@ function Spotlight({ post }) {
           <div className="spotlight-stats-clean">
             <div>
               <span>VALUATION</span>
-              <h4>{meta.valuation || "$--"}</h4>
+              <h4>{meta.valuation || "$5B+"}</h4>
             </div>
             <div>
               <span>LAST RAISE</span>
-              <h4>{meta.funding || "$--"}</h4>
+              <h4>{meta.funding || "$20M"}</h4>
             </div>
             <div>
               <span>READ TIME</span>

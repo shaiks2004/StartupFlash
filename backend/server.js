@@ -1,4 +1,5 @@
 const path = require("path")
+const fs = require("fs/promises")
 require("dotenv").config()
 require("dotenv").config({ path: path.resolve(__dirname, "../.env") })
 
@@ -30,14 +31,17 @@ app.use(express.json())
 =================================== */
 
 const WORDPRESS_URL =
-  process.env.WP_BASE_URL || "https://thestartupflash.in/wp-json/wp/v2"
+  process.env.WP_BASE_URL || "https://cms.thestartupflash.in/wp-json/wp/v2"
 
 const USERNAME = process.env.WP_USERNAME
 const APPLICATION_PASSWORD = process.env.WP_APP_PASSWORD
 
 const TOKEN = Buffer.from(`${USERNAME || ""}:${APPLICATION_PASSWORD || ""}`).toString("base64")
 const NEWSLETTER_WEBHOOK_URL = process.env.NEWSLETTER_WEBHOOK_URL || ""
-const newsletterSubscribers = new Set()
+const DATA_DIRECTORY = path.resolve(__dirname, "data")
+const SUBSCRIBERS_FILE = path.join(DATA_DIRECTORY, "subscribers.json")
+const FEATURED_SUBMISSIONS_FILE = path.join(DATA_DIRECTORY, "featured-submissions.json")
+let dataWriteQueue = Promise.resolve()
 
 const ALLOWED_STATUS = new Set(["draft", "publish"])
 
@@ -70,6 +74,40 @@ const mapWpError = (error, fallbackMessage) => {
 }
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+const readJsonArray = async (filePath) => {
+  try {
+    const contents = await fs.readFile(filePath, "utf8")
+    const data = JSON.parse(contents)
+
+    if (!Array.isArray(data)) {
+      throw new Error(`Invalid data format in ${path.basename(filePath)}`)
+    }
+
+    return data
+  } catch (error) {
+    if (error.code === "ENOENT") {
+      return []
+    }
+
+    throw error
+  }
+}
+
+const writeJsonArray = async (filePath, data) => {
+  await fs.mkdir(DATA_DIRECTORY, { recursive: true })
+  const temporaryPath = `${filePath}.${process.pid}.${Date.now()}.tmp`
+
+  await fs.writeFile(temporaryPath, `${JSON.stringify(data, null, 2)}\n`, "utf8")
+  await fs.rename(temporaryPath, filePath)
+}
+
+// Serializes read-modify-write operations so rapid requests cannot overwrite data.
+const withDataWriteLock = (operation) => {
+  const queuedOperation = dataWriteQueue.then(operation)
+  dataWriteQueue = queuedOperation.catch(() => {})
+  return queuedOperation
+}
 
 /* ===================================
    PUBLIC POSTS
@@ -226,19 +264,30 @@ app.post("/api/newsletter", async (req, res) => {
       return res.status(400).json({ error: "Please enter a valid email address" })
     }
 
-    if (newsletterSubscribers.has(email)) {
+    const result = await withDataWriteLock(async () => {
+      const subscribers = await readJsonArray(SUBSCRIBERS_FILE)
+
+      if (subscribers.includes(email)) {
+        return "existing"
+      }
+
+      if (NEWSLETTER_WEBHOOK_URL) {
+        await axios.post(
+          NEWSLETTER_WEBHOOK_URL,
+          { email, source: "startupflash-web" },
+          { timeout: 10000 }
+        )
+      }
+
+      subscribers.push(email)
+      await writeJsonArray(SUBSCRIBERS_FILE, subscribers)
+      return "created"
+    })
+
+    if (result === "existing") {
       return res.status(200).json({ message: "You are already subscribed" })
     }
 
-    if (NEWSLETTER_WEBHOOK_URL) {
-      await axios.post(
-        NEWSLETTER_WEBHOOK_URL,
-        { email, source: "startupflash-web" },
-        { timeout: 10000 }
-      )
-    }
-
-    newsletterSubscribers.add(email)
     console.log("/api/newsletter subscribed", { email })
 
     return res.status(201).json({ message: "Subscription successful" })
@@ -249,6 +298,62 @@ app.post("/api/newsletter", async (req, res) => {
     return res.status(500).json({
       error: "Failed to subscribe",
       details
+    })
+  }
+})
+
+/* ===================================
+   GET FEATURED SUBMISSIONS
+=================================== */
+
+app.post("/api/get-featured", async (req, res) => {
+  try {
+    const fields = [
+      "firstName",
+      "lastName",
+      "email",
+      "phone",
+      "companyName",
+      "website",
+      "linkedin",
+      "category",
+      "description"
+    ]
+    const submission = Object.fromEntries(
+      fields.map((field) => [field, String(req.body?.[field] || "").trim()])
+    )
+    const requiredFields = [
+      "firstName",
+      "lastName",
+      "email",
+      "phone",
+      "companyName",
+      "website",
+      "category"
+    ]
+    const missingField = requiredFields.find((field) => !submission[field])
+
+    if (missingField) {
+      return res.status(400).json({ error: `${missingField} is required` })
+    }
+
+    if (!EMAIL_REGEX.test(submission.email)) {
+      return res.status(400).json({ error: "Please enter a valid email address" })
+    }
+
+    await withDataWriteLock(async () => {
+      const submissions = await readJsonArray(FEATURED_SUBMISSIONS_FILE)
+      submissions.push({ ...submission, submittedAt: new Date().toISOString() })
+      await writeJsonArray(FEATURED_SUBMISSIONS_FILE, submissions)
+    })
+
+    return res.status(201).json({ message: "Submission received" })
+  } catch (error) {
+    console.error("/api/get-featured failed", { message: error.message })
+
+    return res.status(500).json({
+      error: "Failed to submit feature request",
+      details: error.message || "Submission failed"
     })
   }
 })

@@ -196,6 +196,10 @@ function ArticlePage() {
           className="article-content"
           dangerouslySetInnerHTML={{ __html: sanitized.content }}
         />
+
+        <aside className="article-rail-ad">
+          <AdBanner variant="rectangle" />
+        </aside>
       </div>
 
       <div className="article-author">
@@ -205,8 +209,6 @@ function ArticlePage() {
         </div>
         <span>StartupFlash Editorial</span>
       </div>
-
-      <AdBanner variant="rectangle" />
 
       {showRelated && (
         <section className="related-articles">

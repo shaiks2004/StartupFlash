@@ -2,20 +2,6 @@ import { useEffect, useRef, useState } from "react"
 import { NavLink } from "react-router-dom"
 import { Menu, Search, X } from "lucide-react"
 
-// const NAV_ITEMS = [
-//   { label: "Home", to: "/" },
-//   { label: "Flash View", to: "/flash-view" },
-//   {label : "Metrics", to: "/metrics" },
-//   { label: "Funding", to: "/funding" },
-//   { label: "Founders", to: "/founders" },
-//   { label: "Companies", to: "/companies" },
-//   {label: "Library", to: "/library" },
-
-//   { label: "AI", to: "/ai" },
-//   { label: "Insights", to: "/insights" }
-// ]
-
-
 const NAV_ITEMS = [
   { label: "Home", to: "/" },
   { label: "Flash View", to: "/flash-view" },
@@ -25,7 +11,6 @@ const NAV_ITEMS = [
   { label: "Companies", to: "/companies" },
   { label: "Library", to: "/library" }
 ]
-
 
 function Header({ onSearchOpen }) {
   const [scrolled, setScrolled] = useState(false)
@@ -144,7 +129,7 @@ function Header({ onSearchOpen }) {
             Subscribe
           </a>
           <NavLink
-            className="mobile-nav-featured, featured-btn"
+            className="mobile-nav-featured featured-btn"
             to="/get-featured"
             onClick={() => setMobileMenu(false)}
           >
@@ -202,7 +187,7 @@ function Header({ onSearchOpen }) {
                 Subscribe
               </a>
               <NavLink
-                className="featured-btn, featured-btn-mobile"
+                className="featured-btn featured-btn-mobile"
                 to="/get-featured"
               >
                 Get Featured 🚀

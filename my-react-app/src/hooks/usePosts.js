@@ -39,15 +39,7 @@ export const usePosts = (params = {}) => {
         setLoading(true)
         setError("")
 
-        if (import.meta.env.DEV) {
-          console.log("usePosts params", queryParams)
-        }
-
         const data = await getPosts(queryParams)
-
-        if (import.meta.env.DEV) {
-          console.log("usePosts response", data)
-        }
 
         if (!isMounted) {
           return

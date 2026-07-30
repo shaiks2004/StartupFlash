@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { submitFeaturedSubmission } from "../services/api"
 
 const CATEGORY_OPTIONS = [
   "Funding News",
@@ -41,67 +42,23 @@ function GetFeatured() {
     try {
       setLoading(true)
 
-      const payload = new URLSearchParams()
+      await submitFeaturedSubmission(formData)
+      alert("Submission sent successfully!")
 
-      payload.append(
-        "data",
-        `ak_hp_textarea=&ak_js=${Date.now()}&__fluent_form_embded_post_id=3775&_fluentform_3_fluentformnonce=a30348d2bb&_wp_http_referer=%2Fget-featured%2F&names_1%5Bfirst_name%5D=${encodeURIComponent(
-          formData.firstName
-        )}&names_1%5Blast_name%5D=${encodeURIComponent(
-          formData.lastName
-        )}&input_text=${encodeURIComponent(
-          formData.email
-        )}&input_text_1=${encodeURIComponent(
-          formData.companyName
-        )}&input_text_2=${encodeURIComponent(
-          formData.website
-        )}&input_text_3=${encodeURIComponent(
-          formData.phone
-        )}&input_text_4=${encodeURIComponent(
-          formData.linkedin
-        )}&input_text_5=${encodeURIComponent(
-          formData.description
-        )}&dropdown_1=${encodeURIComponent(formData.category)}`
-      )
-
-      payload.append("action", "fluentform_submit")
-      payload.append("form_id", "3")
-
-      const response = await fetch(
-        "https://thestartupflash.in/wp-admin/admin-ajax.php",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-          },
-          body: payload.toString()
-        }
-      )
-
-      const result = await response.text()
-
-      console.log("Fluent Form Response:", result)
-
-      if (response.ok) {
-        alert("Submission sent successfully!")
-
-        setFormData({
-          firstName: "",
-          lastName: "",
-          email: "",
-          phone: "",
-          companyName: "",
-          website: "",
-          linkedin: "",
-          category: "",
-          description: ""
-        })
-      } else {
-        alert("Submission failed")
-      }
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        companyName: "",
+        website: "",
+        linkedin: "",
+        category: "",
+        description: ""
+      })
     } catch (error) {
       console.error(error)
-      alert("Server error")
+      alert(error.status ? "Submission failed" : "Server error")
     } finally {
       setLoading(false)
     }

@@ -24,20 +24,10 @@ function CategoryPage() {
   const { categories, loading: categoriesLoading } = useCategories()
 
   const matchedCategory = useMemo(() => {
-    const match = categories.find((category) => category.slug === slug)
-    if (import.meta.env.DEV) {
-      console.log("CategoryPage slug", slug)
-      console.log("CategoryPage categories", categories)
-      console.log("CategoryPage matched", match)
-    }
-    return match
+    return categories.find((category) => category.slug === slug)
   }, [categories, slug])
 
   const categoryId = matchedCategory?.id
-
-  if (import.meta.env.DEV) {
-    console.log("CategoryPage categoryId", categoryId)
-  }
 
   const { posts, loading, error, hasMore, loadMore } = usePosts({
     categories: categoryId,

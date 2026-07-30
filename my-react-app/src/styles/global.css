@@ -2,21 +2,28 @@
 
 :root {
   color-scheme: light;
-  --bg: #ffffff;
-  --text: #0a0a0a;
-  --muted: #3d3d3d;
-  --border: #cfcfcf;
-  --accent: #0a0a0a;
-  --soft: #f5f5f5;
+  --ink: #0a0a0a;
+  --ink-soft: #4a4a4a;
+  --paper: #ffffff;
+  --paper-soft: #f7f6f3;
+  --line: #e4e2dd;
+  --accent: #ff6b1a;
+  --accent-ink: #b34500;
+  --bg: var(--paper);
+  --text: var(--ink);
+  --muted: var(--ink-soft);
+  --border: var(--line);
+  --soft: var(--paper-soft);
   --space-1: 8px;
   --space-2: 18px;
   --space-3: 28px;
   --space-4: 40px;
   --space-5: 60px;
   --space-6: 80px;
+  --space-7: 120px;
   --page-max: 1440px;
   --content-max: 1320px;
-  --reading-max: 760px;
+  --reading-max: 680px;
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 20px;
@@ -39,6 +46,11 @@ body {
   line-height: 1.7;
   font-size: clamp(15px, 1.1vw, 17px);
   overflow-x: hidden;
+}
+
+h2 {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(32px, 4vw, 48px);
 }
 
 body.menu-open {
@@ -168,7 +180,7 @@ input:focus-visible {
   bottom: 0;
   width: 0;
   height: 2px;
-  background: var(--text);
+  background: var(--accent);
   transition: width 0.2s ease;
 }
 
@@ -219,7 +231,9 @@ input:focus-visible {
 
 .subscribe-btn,
 .featured-btn {
-  border: 1px solid var(--text);
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--ink);
   padding: 9px 14px;
   font-size: 11px;
   letter-spacing: 0.05em;
@@ -229,15 +243,11 @@ input:focus-visible {
   transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
 }
 
-.featured-btn {
-  background: var(--text);
-  color: var(--bg);
-}
-
 .featured-btn:hover,.subscribe-btn:hover {
   transform: translateY(-1px);
-  background: var(--bg);
-  color: var(--text);
+  background: var(--accent-ink);
+  border-color: var(--accent-ink);
+  color: var(--paper);
 }
 
 .subscribe-btn:hover {
@@ -313,7 +323,7 @@ input:focus-visible {
 }
 
 .mobile-nav a.active {
-  border-bottom-color: var(--text);
+  border-bottom-color: var(--accent);
   font-weight: 600;
 }
 
@@ -337,9 +347,9 @@ input:focus-visible {
 }
 
 .mobile-nav-featured {
-  background: var(--text);
-  color: var(--bg);
-  border-color: var(--text);
+  background: var(--accent);
+  color: var(--ink);
+  border-color: var(--accent);
 }
 /* =========================
    PREMIUM TICKER
@@ -353,6 +363,7 @@ input:focus-visible {
   border-bottom: 1px solid rgba(255,255,255,0.08);
   position: relative;
   z-index: 20;
+  
   width: 100vw;
   margin-left: calc(50% - 50vw);
   margin-top: -1px;
@@ -365,14 +376,15 @@ input:focus-visible {
   width: 100%;
   margin: 0 auto;
   padding: 6px var(--space-3);
+  
 }
 
 .ticker-heading {
   display: flex;
   align-items: center;
   gap: 10px;
-
   flex-shrink: 0;
+  background-color: #b34500;
 
   font-size: 11px;
   font-weight: 700;
@@ -490,13 +502,14 @@ input:focus-visible {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: var(--space-4);
-  margin: var(--space-1) 0 var(--space-5);
+  margin: var(--space-1) 0 var(--space-7);
+  padding: var(--space-5) 0;
   align-items: stretch;
 }
 
 .editorial-main {
   display: grid;
-  grid-template-columns: 1.3fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: var(--space-3);
   align-items: stretch;
 }
@@ -511,7 +524,7 @@ input:focus-visible {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 420px;
+  min-height: 320px;
 }
 
 .image-placeholder {
@@ -533,7 +546,7 @@ input:focus-visible {
 
 .editorial-content h1 {
   font-family: "Playfair Display", serif;
-  font-size: clamp(34px, 5vw, 56px);
+  font-size: clamp(48px, 6vw, 88px);
   margin: var(--space-2) 0;
   line-height: 1.05;
 }
@@ -552,12 +565,18 @@ input:focus-visible {
   text-transform: uppercase;
 }
 
+.editorial-tags span {
+  color: var(--accent-ink);
+}
+
 .editorial-meta {
   display: flex;
   gap: 12px;
   align-items: center;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .top-stories {
@@ -593,9 +612,10 @@ input:focus-visible {
 }
 
 .story-category {
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  color: var(--accent-ink);
 }
 
 .story-content h4 {
@@ -606,11 +626,13 @@ input:focus-visible {
 .story-meta {
   color: var(--muted);
   font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .spotlight-editorial {
-  margin: 0 0 56px;
-  padding-top: 8px;
+  margin: 0 0 var(--space-7);
+  padding: var(--space-5) 0;
 }
 
 .spotlight-top p {
@@ -621,7 +643,7 @@ input:focus-visible {
 
 .spotlight-top h2 {
   font-family: "Playfair Display", serif;
-  font-size: 36px;
+  font-size: clamp(32px, 4vw, 48px);
   margin: var(--space-1) 0 0;
 }
 
@@ -649,6 +671,7 @@ input:focus-visible {
   font-size: 12px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
+  color: var(--accent-ink);
 }
 
 .spotlight-text {
@@ -691,7 +714,7 @@ input:focus-visible {
 }
 
 .feed-section {
-  margin: 0 0 var(--space-5);
+  margin: 0 0 var(--space-7);
 }
 
 .feed-header {
@@ -705,14 +728,14 @@ input:focus-visible {
 
 .feed-header h2 {
   font-family: "Playfair Display", serif;
-  font-size: clamp(24px, 3.2vw, 32px);
+  font-size: clamp(32px, 4vw, 48px);
   margin: var(--space-1) 0 0;
 }
 
 .feed-grid,
 .category-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--space-4);
   align-items: stretch;
   grid-auto-rows: 1fr;
@@ -765,7 +788,7 @@ input:focus-visible {
   font-size: 12px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--text);
+  color: var(--accent-ink);
 }
 
 .article-title {
@@ -844,10 +867,12 @@ input:focus-visible {
   color: var(--muted);
   display: flex;
   gap: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .category-section {
-  margin: 48px 0;
+  margin: var(--space-7) 0;
 }
 
 .section-header {
@@ -869,12 +894,13 @@ input:focus-visible {
   justify-content: space-between;
   gap: var(--space-3);
   align-items: center;
+  margin: var(--space-7) 0;
 }
 
 .newsletter h2 {
   font-family: "Playfair Display", serif;
   margin: var(--space-2) 0 0;
-  font-size: clamp(30px, 3.2vw, 40px);
+  font-size: clamp(32px, 4vw, 48px);
   line-height: 1.15;
   max-width: 22ch;
 }
@@ -894,9 +920,9 @@ input:focus-visible {
 }
 
 .newsletter-form button {
-  border: 1px solid var(--text);
-  background: var(--text);
-  color: var(--bg);
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--ink);
   padding: 12px 18px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -906,8 +932,9 @@ input:focus-visible {
 }
 
 .newsletter-form button:hover {
-  background: var(--bg);
-  color: var(--text);
+  background: var(--accent-ink);
+  border-color: var(--accent-ink);
+  color: var(--paper);
 }
 
 .newsletter-form button:disabled,
@@ -1210,6 +1237,23 @@ input:focus-visible {
   max-width: var(--content-max);
   margin: 0 auto;
   align-items: start;
+}
+
+.article-rail-ad {
+  width: 100%;
+  max-width: 420px;
+  justify-self: end;
+  position: sticky;
+  top: 80px;
+}
+
+.article-rail-ad .ad-banner {
+  margin: 0;
+  max-width: 100%;
+  min-height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .article-share-sidebar {
@@ -1533,6 +1577,12 @@ input:focus-visible {
     max-width: 100%;
   }
 
+  .article-rail-ad {
+    max-width: 100%;
+    position: static;
+    justify-self: stretch;
+  }
+
   .feed-grid,
   .category-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1619,6 +1669,10 @@ input:focus-visible {
     z-index: 10;
   }
 
+  .article-rail-ad .ad-banner {
+    min-height: 220px;
+  }
+
   .ad-banner,
   .ad-rectangle,
   .ad-leaderboard {
@@ -1645,10 +1699,6 @@ input:focus-visible {
 }
 
 @media (max-width: 640px) {
-  .editorial-content h1 {
-    font-size: 34px;
-  }
-
   .page-header h1 {
     font-size: 30px;
   }
@@ -1708,7 +1758,7 @@ input:focus-visible {
 }
 
 .featured-form-container h1 {
-  font-size: 48px;
+  font-size: clamp(48px, 6vw, 88px);
   margin-bottom: 12px;
 }
 
@@ -1744,8 +1794,8 @@ input:focus-visible {
 }
 
 .submit-featured-btn {
-  background: #000;
-  color: #fff;
+  background: var(--accent);
+  color: var(--ink);
   border: none;
   padding: 18px;
   border-radius: 12px;
@@ -1754,7 +1804,8 @@ input:focus-visible {
 }
 
 .submit-featured-btn:hover {
-  background: #111;
+  background: var(--accent-ink);
+  color: var(--paper);
 }
 
 @media (max-width: 768px) {
@@ -1763,6 +1814,6 @@ input:focus-visible {
   }
 
   .featured-form-container h1 {
-    font-size: 32px;
+    font-size: clamp(48px, 6vw, 88px);
   }
 }

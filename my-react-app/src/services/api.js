@@ -1,5 +1,5 @@
 const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api"
+  import.meta.env.VITE_API_BASE_URL
 
 const cache = new Map()
 const DEFAULT_TTL_MS = 60 * 1000
@@ -25,21 +25,18 @@ const buildQuery = (params = {}) => {
 }
 
 const fetchJson = async (path, params, options = {}) => {
-  const query = buildQuery(params)
+  const requestParams = path.startsWith("/posts")
+    ? { ...params, _embed: 1 }
+    : params
+  const query = buildQuery(requestParams)
   const url = `${API_BASE_URL}${path}${query ? `?${query}` : ""}`
   const cacheKey = url
   const now = Date.now()
-
-  if (import.meta.env.DEV) {
-    console.log("fetchJson", url)
-  }
 
   const cached = cache.get(cacheKey)
   if (cached && now - cached.timestamp < (options.ttlMs || DEFAULT_TTL_MS)) {
     return cached.data
   }
-  console.log("VITE_API_BASE_URL =", import.meta.env.VITE_API_BASE_URL)
-  console.log("API_BASE_URL =", API_BASE_URL)
   const controller = new AbortController()
   const timeoutMs = options.timeoutMs || DEFAULT_TIMEOUT_MS
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs)
@@ -85,7 +82,9 @@ const postJson = async (path, body) => {
 
   const data = await response.json().catch(() => ({}))
   if (!response.ok) {
-    throw new Error(data.error || data.details || `Request failed: ${response.status}`)
+    const error = new Error(data.error || data.details || `Request failed: ${response.status}`)
+    error.status = response.status
+    throw error
   }
 
   return data
@@ -110,3 +109,6 @@ export const searchPosts = (query, params = {}) =>
 
 export const subscribeToNewsletter = (email) =>
   postJson("/newsletter", { email })
+
+export const submitFeaturedSubmission = (submission) =>
+  postJson("/get-featured", submission)

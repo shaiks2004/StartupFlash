@@ -1,0 +1,138 @@
+.not-found{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#fafafa;
+    text-align:center;
+}
+
+.scene{
+    width:500px;
+}
+
+.cat{
+    position:relative;
+    width:260px;
+    margin:auto;
+}
+
+.head{
+    width:120px;
+    height:110px;
+    background:#444;
+    border-radius:50%;
+    margin:auto;
+    position:relative;
+}
+
+.ears span{
+    position:absolute;
+    width:30px;
+    height:30px;
+    background:#444;
+    transform:rotate(45deg);
+}
+
+.ears span:first-child{
+    left:70px;
+    top:-12px;
+}
+
+.ears span:last-child{
+    right:70px;
+    top:-12px;
+}
+
+.eyes{
+    display:flex;
+    justify-content:space-around;
+    padding-top:35px;
+}
+
+.eyes span{
+    width:12px;
+    height:12px;
+    background:#fff;
+    border-radius:50%;
+    animation:blink 5s infinite;
+}
+
+.nose{
+    width:10px;
+    height:10px;
+    background:pink;
+    border-radius:50%;
+    margin:18px auto;
+}
+
+.body{
+    width:140px;
+    height:90px;
+    background:#555;
+    border-radius:60px;
+    margin:10px auto;
+}
+
+.newspaper{
+    width:180px;
+    height:120px;
+    background:white;
+    border:3px solid #222;
+    position:absolute;
+    top:80px;
+    left:40px;
+    transform:rotate(-5deg);
+    animation:read 2s ease-in-out infinite;
+}
+
+.newspaper h3{
+    margin-top:10px;
+    font-size:18px;
+}
+
+.newspaper p{
+    margin:8px;
+    font-weight:bold;
+}
+
+.lines{
+    width:80%;
+    height:40px;
+    margin:auto;
+    background:repeating-linear-gradient(
+        to bottom,
+        #bbb 0,
+        #bbb 2px,
+        transparent 2px,
+        transparent 8px
+    );
+}
+
+.home-btn{
+    display:inline-block;
+    margin-top:30px;
+    padding:12px 28px;
+    background:#111;
+    color:white;
+    text-decoration:none;
+    border-radius:40px;
+}
+
+@keyframes read{
+    0%,100%{
+        transform:rotate(-5deg);
+    }
+    50%{
+        transform:rotate(5deg);
+    }
+}
+
+@keyframes blink{
+    0%,48%,52%,100%{
+        transform:scaleY(1);
+    }
+    50%{
+        transform:scaleY(0.1);
+    }
+}
