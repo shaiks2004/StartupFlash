@@ -4,7 +4,6 @@ import { usePosts } from "../hooks/usePosts"
 import { useCategories } from "../hooks/useCategories"
 import Ticker from "../components/Ticker"
 import HeroEditorial from "../components/HeroEditorial"
-import Spotlight from "../components/Spotlight"
 import TheFeed from "../components/TheFeed"
 import CategorySection from "../components/CategorySection"
 import Newsletter from "../components/Newsletter"
@@ -26,7 +25,6 @@ function Home() {
 
   const hero = posts?.[0]
   const topStories = posts?.slice(1, 4) || []
-  const spotlight = posts?.[4] || posts?.[0]
 
   const tickerItems = useMemo(
     () => posts.map((post) => post.title?.rendered || "").filter(Boolean),
@@ -61,13 +59,6 @@ function Home() {
       {!loading && !error && !hero && (
         <p className="error-text">No featured stories are available yet.</p>
       )}
-      <AdBanner variant="leaderboard" />
-      {loading && !spotlight ? (
-        <LoadingSkeleton lines={3} />
-      ) : (
-        <Spotlight post={spotlight} />
-      )}
-      <AdBanner variant="rectangle" />
       <TheFeed posts={posts} loading={loading} error={error} />
 
       {CATEGORY_SECTIONS.map((section) => {
