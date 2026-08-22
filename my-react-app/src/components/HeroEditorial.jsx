@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import { ArrowUpRight, Dot } from "lucide-react"
 import { formatDate } from "../utils/content"
 import { getFeaturedImage, getPrimaryCategory, getReadTime } from "../utils/wp"
+import "../styles/components/hero-editorial.css"
 
 function HeroEditorial({ hero, topStories = [] }) {
   const [heroImageFailed, setHeroImageFailed] = useState(false)
@@ -23,7 +24,9 @@ function HeroEditorial({ hero, topStories = [] }) {
             <img
               src={heroImage}
               alt={hero.title?.rendered || "Top story image"}
-              loading="lazy"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
               onError={() => setHeroImageFailed(true)}
             />
           ) : (

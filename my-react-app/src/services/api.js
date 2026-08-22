@@ -1,7 +1,11 @@
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || (
+  import.meta.env.PROD
+    ? "https://cms.thestartupflash.in/wp-json/wp/v2"
+    : ""
+)
 
 const cache = new Map()
+const inFlight = new Map()
 const DEFAULT_TTL_MS = 60 * 1000
 const DEFAULT_TIMEOUT_MS = 12000
 
@@ -37,40 +41,56 @@ const fetchJson = async (path, params, options = {}) => {
   if (cached && now - cached.timestamp < (options.ttlMs || DEFAULT_TTL_MS)) {
     return cached.data
   }
+
+  const pending = inFlight.get(cacheKey)
+  if (pending) {
+    return pending
+  }
+
   const controller = new AbortController()
   const timeoutMs = options.timeoutMs || DEFAULT_TIMEOUT_MS
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs)
 
-  let response
-  try {
-    response = await fetch(url, { signal: controller.signal })
-  } catch (error) {
-    if (error.name === "AbortError") {
-      throw new Error("Request timed out")
+  const request = (async () => {
+    let response
+    try {
+      response = await fetch(url, { signal: controller.signal })
+    } catch (error) {
+      if (error.name === "AbortError") {
+        throw new Error("Request timed out")
+      }
+
+      throw new Error("Network request failed")
+    } finally {
+      clearTimeout(timeoutId)
     }
 
-    throw new Error("Network request failed")
-  } finally {
-    clearTimeout(timeoutId)
-  }
+    if (!response.ok) {
+      throw new Error(`Request failed: ${response.status}`)
+    }
 
-  if (!response.ok) {
-    throw new Error(`Request failed: ${response.status}`)
-  }
+    let data
+    try {
+      data = await response.json()
+    } catch {
+      throw new Error("Invalid server response")
+    }
 
-  let data
+    if (!Array.isArray(data) && typeof data !== "object") {
+      throw new Error("Invalid server response")
+    }
+
+    cache.set(cacheKey, { data, timestamp: Date.now() })
+    return data
+  })()
+
+  inFlight.set(cacheKey, request)
+
   try {
-    data = await response.json()
-  } catch {
-    throw new Error("Invalid server response")
+    return await request
+  } finally {
+    inFlight.delete(cacheKey)
   }
-
-  if (!Array.isArray(data) && typeof data !== "object") {
-    throw new Error("Invalid server response")
-  }
-
-  cache.set(cacheKey, { data, timestamp: now })
-  return data
 }
 
 const postJson = async (path, body) => {
@@ -107,8 +127,8 @@ export const getPostsByCategory = (categoryId, params = {}) =>
 export const searchPosts = (query, params = {}) =>
   fetchJson("/posts", { search: query, ...params })
 
-export const subscribeToNewsletter = (email) =>
-  postJson("/newsletter", { email })
+export const subscribeToNewsletter = (submission) =>
+  postJson("/newsletter", submission)
 
 export const submitFeaturedSubmission = (submission) =>
   postJson("/get-featured", submission)

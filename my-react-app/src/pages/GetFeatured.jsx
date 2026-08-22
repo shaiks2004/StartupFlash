@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { submitFeaturedSubmission } from "../services/api"
+import "../styles/pages/get-featured.css"
 
 const CATEGORY_OPTIONS = [
   "Funding News",
@@ -24,15 +25,16 @@ function GetFeatured() {
     website: "",
     linkedin: "",
     category: "",
-    description: ""
+    description: "",
+    termsAccepted: false
   })
 
   const handleChange = (e) => {
-    const { name, value } = e.target
+    const { name, value, type, checked } = e.target
 
     setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: type === "checkbox" ? checked : value
     }))
   }
 
@@ -54,7 +56,8 @@ function GetFeatured() {
         website: "",
         linkedin: "",
         category: "",
-        description: ""
+        description: "",
+        termsAccepted: false
       })
     } catch (error) {
       console.error(error)
@@ -162,6 +165,19 @@ function GetFeatured() {
             onChange={handleChange}
             required
           />
+
+          <label className="featured-terms">
+            <input
+              type="checkbox"
+              name="termsAccepted"
+              checked={formData.termsAccepted}
+              onChange={handleChange}
+              required
+            />
+            <span>
+              I approve the <a href="/terms#terms">Terms &amp; Conditions</a>
+            </span>
+          </label>
 
           <button
             type="submit"

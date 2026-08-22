@@ -7,6 +7,10 @@ import { usePosts } from "../hooks/usePosts"
 import ArticleCard from "../components/ArticleCard"
 import LoadingSkeleton from "../components/LoadingSkeleton"
 import AdBanner from "../components/AdBanner"
+import "../styles/pages/category.css"
+import "../styles/components/card-utilities.css"
+import "../styles/components/ad-utilities.css"
+import "../styles/components/ad-banner-slot.css"
 
 const CATEGORY_LABELS = {
   funding: "Funding",
@@ -84,17 +88,15 @@ function CategoryPage() {
         <div className="category-featured">
           {featured && <ArticleCard post={featured} variant="featured" />}
         </div>
-        <div className="category-hero-ad">
-          <AdBanner variant="rectangle" />
-        </div>
-      </div>
-
-      <div className="top-stories-row">
-        <p>TOP STORIES</p>
-        <div className="top-stories-grid">
-          {topStories.map((post) => (
-            <ArticleCard key={post.id} post={post} variant="compact" />
-          ))}
+        <div className="category-hero-stories">
+          <div className="top-stories-row">
+            <p>TOP STORIES</p>
+            <div className="top-stories-grid">
+              {topStories.map((post) => (
+                <ArticleCard key={post.id} post={post} variant="compact" />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 

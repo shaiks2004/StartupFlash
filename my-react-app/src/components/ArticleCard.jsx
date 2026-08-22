@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Dot } from "lucide-react";
 import { formatDate } from "../utils/content";
 import { getFeaturedImage, getPrimaryCategory } from "../utils/wp";
+import "../styles/components/article-card.css";
 
 const DEFAULT_IMAGE = "/flash.png"; // Put flash.png inside public/
 
@@ -24,6 +25,9 @@ function ArticleCard({ post, variant = "default" }) {
             src={imageSrc}
             alt={post.title?.rendered || "Article image"}
             loading="lazy"
+            decoding="async"
+            width="768"
+            height="432"
             onError={() => setImageSrc(DEFAULT_IMAGE)}
           />
         </div>

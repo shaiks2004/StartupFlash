@@ -13,7 +13,9 @@ function AdBanner() {
 
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
-    } catch {}
+    } catch {
+      // The third-party script can reject unavailable or duplicate ad slots.
+    }
   }, []);
 
   return (

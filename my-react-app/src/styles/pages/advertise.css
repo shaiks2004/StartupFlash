@@ -1,0 +1,185 @@
+.advertise-page {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: var(--space-3) clamp(18px, 3vw, var(--space-3)) var(--space-6);
+}
+
+.advertise-page__inner {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.advertise-page__hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.65fr);
+  align-items: end;
+  gap: var(--space-4);
+  padding: clamp(30px, 5vw, 64px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(circle at top right, rgba(255, 107, 26, 0.2), transparent 34%),
+    linear-gradient(135deg, #141414 0%, #292929 100%);
+  color: var(--paper);
+  box-shadow: var(--shadow-lg);
+}
+
+.advertise-page__eyebrow {
+  margin: 0 0 12px;
+  color: var(--accent-ink);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.advertise-page__hero .advertise-page__eyebrow,
+.advertise-page__cta .advertise-page__eyebrow {
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.advertise-page__hero h1,
+.advertise-page__intro h2,
+.advertise-page__opportunity h2,
+.advertise-page__cta h2 {
+  margin: 0;
+  font-family: "Playfair Display", serif;
+  line-height: 1.08;
+}
+
+.advertise-page__hero h1 {
+  max-width: 14ch;
+  font-size: clamp(42px, 6vw, 76px);
+}
+
+.advertise-page__hero p:not(.advertise-page__eyebrow) {
+  max-width: 58ch;
+  margin: 20px 0 0;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.advertise-page__hero-link,
+.advertise-page__cta-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 16px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-align: center;
+  text-transform: uppercase;
+  transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+}
+
+.advertise-page__hero-link:hover,
+.advertise-page__cta-link:hover {
+  transform: translateY(-1px);
+  background: var(--accent-ink);
+  color: var(--paper);
+}
+
+.advertise-page__intro {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 18px;
+  max-width: 860px;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.advertise-page__intro > svg,
+.advertise-page__opportunity > svg {
+  color: var(--accent-ink);
+}
+
+.advertise-page__intro h2 {
+  font-size: clamp(26px, 3vw, 36px);
+}
+
+.advertise-page__intro p {
+  margin: 10px 0 0;
+  color: var(--muted);
+}
+
+.advertise-page__opportunities {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.advertise-page__opportunity {
+  min-height: 240px;
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--paper-soft);
+}
+
+.advertise-page__opportunity h2 {
+  margin-top: 46px;
+  font-size: clamp(24px, 2.4vw, 30px);
+}
+
+.advertise-page__opportunity p {
+  margin: 12px 0 0;
+  color: var(--muted);
+}
+
+.advertise-page__cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: clamp(26px, 4vw, 44px);
+  border-radius: var(--radius-lg);
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.advertise-page__cta h2 {
+  font-size: clamp(30px, 4vw, 48px);
+}
+
+.advertise-page__cta p:not(.advertise-page__eyebrow) {
+  max-width: 58ch;
+  margin: 14px 0 0;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.advertise-page__cta-link {
+  flex: 0 0 auto;
+}
+
+@media (max-width: 900px) {
+  .advertise-page__hero,
+  .advertise-page__opportunities {
+    grid-template-columns: 1fr;
+  }
+
+  .advertise-page__cta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .advertise-page {
+    padding: 24px 16px 48px;
+  }
+
+  .advertise-page__inner {
+    gap: var(--space-4);
+  }
+
+  .advertise-page__hero,
+  .advertise-page__opportunity,
+  .advertise-page__cta {
+    padding: 22px;
+  }
+}

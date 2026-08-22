@@ -1,11 +1,13 @@
 import { useState } from "react"
 import { subscribeToNewsletter } from "../services/api"
+import "../styles/components/newsletter.css"
 
 function Newsletter() {
   const [email, setEmail] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const [success, setSuccess] = useState("")
+  const [termsAccepted, setTermsAccepted] = useState(false)
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -17,12 +19,19 @@ function Newsletter() {
       return
     }
 
+    if (!termsAccepted) {
+      setError("Please approve the Terms & Conditions")
+      setSuccess("")
+      return
+    }
+
     try {
       setLoading(true)
       setError("")
-      const response = await subscribeToNewsletter(value)
+      const response = await subscribeToNewsletter({ email: value, termsAccepted })
       setSuccess(response.message || "Subscription successful")
       setEmail("")
+      setTermsAccepted(false)
     } catch (submitError) {
       setSuccess("")
       setError(submitError.message || "Unable to subscribe right now")
@@ -50,6 +59,18 @@ function Newsletter() {
           disabled={loading}
           aria-invalid={Boolean(error)}
         />
+        <label className="newsletter-terms">
+          <input
+            type="checkbox"
+            checked={termsAccepted}
+            onChange={(event) => setTermsAccepted(event.target.checked)}
+            disabled={loading}
+            required
+          />
+          <span>
+            I approve the <a href="/terms#terms">Terms &amp; Conditions</a>
+          </span>
+        </label>
         <button type="submit" disabled={loading}>
           {loading ? "Subscribing..." : "Subscribe"}
         </button>

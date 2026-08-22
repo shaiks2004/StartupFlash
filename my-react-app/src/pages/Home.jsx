@@ -9,6 +9,9 @@ import CategorySection from "../components/CategorySection"
 import Newsletter from "../components/Newsletter"
 import LoadingSkeleton from "../components/LoadingSkeleton"
 import AdBanner from "../components/AdBanner"
+import "../styles/pages/home.css"
+import "../styles/components/card-utilities.css"
+import "../styles/components/ad-banner-slot.css"
 
 const CATEGORY_SECTIONS = [
   { slug: "funding", title: "Funding" },

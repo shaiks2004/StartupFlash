@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import "../styles/components/footer.css"
 
 function Footer() {
   return (
@@ -24,10 +25,10 @@ function Footer() {
 
           <div>
             <h4>Company</h4>
-            <Link to="/aboutus">About</Link>
+            <Link to="/about-us">About</Link>
             <Link to="/contact">Contact</Link>
             <Link to="/advertise">Advertise</Link>
-            <Link to="/featured">Get Featured</Link>
+            <Link to="/get-featured">Get Featured</Link>
           </div>
 
           <div>
@@ -48,9 +49,8 @@ function Footer() {
       <div className="footer-bottom">
         <p>� 2026 StartupFlash. All rights reserved.</p>
         <div>
-          <Link to="/privacy">Privacy</Link>
-          <Link to="/terms">Terms</Link>
-          <Link to="/cookies">Cookies</Link>
+          <Link to="/privacy#privacy-policy">Privacy Policy</Link>
+          <Link to="/terms#terms">Terms / Disclaimer</Link>
         </div>
       </div>
     </footer>

@@ -4,6 +4,7 @@ import { X } from "lucide-react"
 import { useDebouncedValue } from "../hooks/useDebouncedValue"
 import { useSearch } from "../hooks/useSearch"
 import { formatDate } from "../utils/content"
+import "../styles/components/search-modal.css"
 
 function SearchModal({ open, onClose }) {
   const [query, setQuery] = useState("")

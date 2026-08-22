@@ -1,3 +1,5 @@
+import "../styles/components/loading-skeleton.css"
+
 function LoadingSkeleton({ lines = 3 }) {
   return (
     <div className="skeleton">

@@ -255,6 +255,7 @@ app.post("/api/create-post", async (req, res) => {
 app.post("/api/newsletter", async (req, res) => {
   try {
     const email = String(req.body?.email || "").trim().toLowerCase()
+    const termsAccepted = req.body?.termsAccepted === true
 
     if (!email) {
       return res.status(400).json({ error: "Email is required" })
@@ -262,6 +263,10 @@ app.post("/api/newsletter", async (req, res) => {
 
     if (!EMAIL_REGEX.test(email)) {
       return res.status(400).json({ error: "Please enter a valid email address" })
+    }
+
+    if (!termsAccepted) {
+      return res.status(400).json({ error: "Terms & Conditions approval is required" })
     }
 
     const result = await withDataWriteLock(async () => {
@@ -317,7 +322,8 @@ app.post("/api/get-featured", async (req, res) => {
       "website",
       "linkedin",
       "category",
-      "description"
+      "description",
+      "termsAccepted"
     ]
     const submission = Object.fromEntries(
       fields.map((field) => [field, String(req.body?.[field] || "").trim()])
@@ -339,6 +345,10 @@ app.post("/api/get-featured", async (req, res) => {
 
     if (!EMAIL_REGEX.test(submission.email)) {
       return res.status(400).json({ error: "Please enter a valid email address" })
+    }
+
+    if (submission.termsAccepted !== "true") {
+      return res.status(400).json({ error: "Terms & Conditions approval is required" })
     }
 
     await withDataWriteLock(async () => {

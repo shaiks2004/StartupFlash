@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import "C:\\Projects\\startup_flash\\my-react-app\\src\\NotFound.css";
+import "../styles/pages/notfound.css";
 
 export default function NotFound() {
   return (

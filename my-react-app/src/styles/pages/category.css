@@ -1,0 +1,266 @@
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+  margin-bottom: 24px;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(32px, 4vw, 48px);
+}
+
+.page-header p {
+  margin: 0 0 8px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.category-page {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: var(--space-3) clamp(18px, 3vw, var(--space-3)) var(--space-6);
+}
+
+.page-description {
+  margin: 0;
+  color: var(--muted);
+  max-width: 520px;
+}
+
+.page-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: var(--space-2);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.category-header-ads {
+  display: grid;
+  gap: var(--space-2);
+  min-width: 200px;
+  text-align: right;
+}
+
+.sponsor-mini {
+  border: 1px dashed var(--border);
+  padding: 10px 12px;
+  background: linear-gradient(180deg, #ffffff 0%, #f5f5f5 100%);
+  border-radius: var(--radius-md);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.sponsor-mini span {
+  color: var(--muted);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.category-hero {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-5);
+  margin-bottom: var(--space-5);
+  align-items: start;
+}
+
+.category-featured .article-card {
+  height: 100%;
+}
+
+.category-hero-stories {
+  min-height: 100%;
+  padding-left: var(--space-3);
+  border-left: 1px solid var(--border);
+}
+
+.top-stories-row {
+  margin: 0;
+}
+
+.top-stories-row > p {
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 var(--space-2);
+}
+
+.top-stories-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.category-hero-stories .top-stories-grid {
+  grid-template-columns: 1fr;
+}
+
+.category-hero-stories .article-card {
+  border: 0;
+  border-top: 1px solid var(--border);
+  border-radius: 0;
+  box-shadow: none;
+  transform: none;
+}
+
+.category-hero-stories .article-card:hover {
+  box-shadow: none;
+  background: var(--soft);
+}
+
+.category-hero-stories .article-link {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+}
+
+.category-hero-stories .article-media {
+  display: block;
+  overflow: hidden;
+  background: var(--soft);
+}
+
+.category-hero-stories .article-media img,
+.category-hero-stories .article-media .article-placeholder {
+  display: block;
+  width: 100%;
+  height: 92px;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.category-hero-stories .article-card.compact .article-media img,
+.category-hero-stories .article-card.compact .article-media .article-placeholder {
+  height: 92px;
+}
+
+.category-hero-stories .article-body {
+  min-width: 0;
+  padding: 16px 0;
+}
+
+.category-hero-stories .article-title {
+  font-size: 16px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.category-hero-stories .article-excerpt {
+  display: none;
+}
+
+.category-hero-stories .article-meta {
+  font-size: 10px;
+  overflow-wrap: anywhere;
+}
+
+.category-sidebar {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.sidebar-block h3 {
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-2);
+}
+
+.load-more {
+  margin: 32px auto 0;
+  display: block;
+  border: 1px solid var(--text);
+  background: var(--text);
+  color: var(--bg);
+  padding: 10px 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.load-more:hover {
+  background: var(--bg);
+  color: var(--text);
+}
+
+@media (max-width: 1024px) {
+  .category-hero,
+  .top-stories-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .category-hero-stories {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .category-hero-stories .article-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+  }
+
+  .category-hero-stories .top-stories-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .category-hero-stories .article-link {
+    display: flex;
+    gap: 0;
+  }
+
+  .category-hero-stories .article-media img,
+  .category-hero-stories .article-media .article-placeholder,
+  .category-hero-stories .article-card.compact .article-media img,
+  .category-hero-stories .article-card.compact .article-media .article-placeholder {
+    height: clamp(180px, 24vw, 240px);
+    aspect-ratio: auto;
+  }
+
+  .category-hero-stories .article-body {
+    padding: 18px;
+  }
+
+  .category-hero-stories .article-excerpt {
+    display: block;
+  }
+
+  .category-header-ads {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    text-align: left;
+  }
+}
+
+@media (max-width: 768px) {
+  .category-page {
+    padding: 24px 16px 48px;
+  }
+
+  .category-header-ads {
+    width: 100%;
+    grid-template-columns: 1fr;
+  }
+
+  .category-hero {
+    gap: var(--space-3);
+  }
+
+  .top-stories-grid {
+    grid-template-columns: 1fr;
+  }
+}

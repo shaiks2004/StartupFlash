@@ -4,6 +4,8 @@ import { Helmet } from "react-helmet-async"
 import { useSearch } from "../hooks/useSearch"
 import ArticleCard from "../components/ArticleCard"
 import LoadingSkeleton from "../components/LoadingSkeleton"
+import "../styles/pages/search.css"
+import "../styles/components/card-utilities.css"
 
 const useQuery = () => {
   const { search } = useLocation()

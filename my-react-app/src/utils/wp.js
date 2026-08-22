@@ -14,10 +14,21 @@ const isValidHttpUrl = (value = "") => {
 export const stripHtml = (html = "") =>
   html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim()
 
-export const getFeaturedImage = (post) =>
-  isValidHttpUrl(post?._embedded?.["wp:featuredmedia"]?.[0]?.source_url)
-    ? post._embedded["wp:featuredmedia"][0].source_url
-    : ""
+export const getFeaturedImage = (post) => {
+  const media = post?._embedded?.["wp:featuredmedia"]?.[0]
+  const featuredImage =
+    media?.media_details?.sizes?.medium_large?.source_url || media?.source_url
+
+  if (isValidHttpUrl(featuredImage)) {
+    return featuredImage
+  }
+
+  const contentImage = post?.content?.rendered?.match(
+    /<img[^>]+src=["']([^"']+)["']/i
+  )?.[1]
+
+  return isValidHttpUrl(contentImage) ? contentImage : ""
+}
 
 export const getAuthorName = (post) =>
   post?._embedded?.author?.[0]?.name || "StartupFlash"

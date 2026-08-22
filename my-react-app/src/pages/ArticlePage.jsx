@@ -12,10 +12,14 @@ import {
   insertInlineAdAfterFirstParagraph
 } from "../utils/content"
 import { getCategoryIds, getReadTime, stripHtml } from "../utils/wp"
+import { getPageUrl } from "../utils/site"
 import ProgressBar from "../components/ProgressBar"
 import LoadingSkeleton from "../components/LoadingSkeleton"
 import ArticleCard from "../components/ArticleCard"
 import AdBanner from "../components/AdBanner"
+import "../styles/pages/article.css"
+import "../styles/components/card-utilities.css"
+import "../styles/components/ad-banner-slot.css"
 
 function ArticlePage() {
   const { slug } = useParams()
@@ -47,7 +51,7 @@ function ArticlePage() {
   }
 
   const readTime = getReadTime(post.content?.rendered || "")
-  const canonical = typeof window !== "undefined" ? window.location.href : ""
+  const canonical = getPageUrl(`/article/${slug}`)
   const description = stripHtml(post.excerpt?.rendered || "")
   const shareUrl = encodeURIComponent(canonical)
   const shareTitle = encodeURIComponent(stripHtml(post.title?.rendered || ""))

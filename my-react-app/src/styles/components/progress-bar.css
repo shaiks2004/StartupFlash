@@ -1,0 +1,13 @@
+.progress-bar {
+  position: sticky;
+  top: 0;
+  height: 3px;
+  background: var(--soft);
+  margin-bottom: 16px;
+}
+
+.progress-bar span {
+  display: block;
+  height: 100%;
+  background: var(--text);
+}

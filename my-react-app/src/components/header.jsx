@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { NavLink } from "react-router-dom"
 import { Menu, Search, X } from "lucide-react"
+import "../styles/components/header.css"
 
 const NAV_ITEMS = [
   { label: "Home", to: "/" },
@@ -97,7 +98,7 @@ function Header({ onSearchOpen }) {
             <span className="logo-fallback">StartupFlash</span>
           ) : (
             <img
-              src="https://thestartupflash.in/wp-content/uploads/2026/05/cropped-Startup-flash-new-logo-150x76.jpeg"
+              src="/Logo.jpeg"
               alt="StartupFlash"
               onError={() => setLogoError(true)}
             />

@@ -1,0 +1,11 @@
+.home {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 0 clamp(18px, 3vw, var(--space-3)) var(--space-6);
+}
+
+@media (max-width: 768px) {
+  .home {
+    padding: 0 16px 48px;
+  }
+}

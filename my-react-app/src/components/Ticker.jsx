@@ -1,4 +1,5 @@
 import { TrendingUp } from "lucide-react"
+import "../styles/components/ticker.css"
 
 function Ticker({ items = [] }) {
   const repeated = items.length ? [...items, ...items] : []

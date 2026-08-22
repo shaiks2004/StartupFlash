@@ -5,6 +5,7 @@ import Header from "../components/header"
 import Footer from "../components/footer"
 import ScrollToTop from "../components/ScrollToTop"
 import SearchModal from "../components/SearchModal"
+import "../styles/components/shared-layout.css"
 
 function MainLayout() {
   const [searchOpen, setSearchOpen] = useState(false)

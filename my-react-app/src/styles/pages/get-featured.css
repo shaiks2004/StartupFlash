@@ -1,0 +1,144 @@
+.featured-form-page {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: var(--space-3) clamp(18px, 3vw, var(--space-3)) var(--space-6);
+}
+
+.featured-form-container {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.featured-form-container h1 {
+  margin: 0 0 14px;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(34px, 5vw, 58px);
+  line-height: 1.05;
+}
+
+.featured-form-container p {
+  max-width: 72ch;
+  color: var(--muted);
+}
+
+.featured-form {
+  margin-top: 28px;
+  display: grid;
+  gap: 18px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.featured-form input,
+.featured-form select,
+.featured-form textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--paper);
+  color: var(--text);
+  font: inherit;
+}
+
+.featured-form textarea {
+  min-height: 180px;
+  resize: vertical;
+}
+
+.featured-terms {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  align-items: flex-start;
+  gap: 9px;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.featured-terms input[type="checkbox"] {
+  flex: 0 0 16px;
+  width: 16px;
+  min-width: 16px;
+  height: 16px;
+  margin: 2px 0 0;
+  padding: 0;
+  border: 0;
+  accent-color: var(--accent);
+}
+
+.featured-terms span {
+  min-width: 0;
+}
+
+.featured-terms a {
+  color: var(--accent-ink);
+  font-weight: 700;
+}
+
+.submit-featured-btn {
+  width: fit-content;
+  min-width: 160px;
+  padding: 12px 20px;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+}
+
+.submit-featured-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: var(--accent-ink);
+  color: var(--paper);
+}
+
+.submit-featured-btn:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+  .featured-form-page {
+    padding: 24px 16px 48px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .featured-form-container h1 {
+    font-size: clamp(30px, 10vw, 42px);
+  }
+
+  .featured-form {
+    gap: 14px;
+  }
+
+  .featured-form input,
+  .featured-form select,
+  .featured-form textarea {
+    padding: 13px 14px;
+  }
+
+  .featured-terms {
+    width: 100%;
+  }
+
+  .submit-featured-btn {
+    width: 100%;
+  }
+}
