@@ -14,7 +14,7 @@ function MainLayout() {
   return (
     <div className="app-shell">
       <Helmet>
-        {import.meta.env.VITE_ENV !== "production" && (
+        {!import.meta.env.PROD && (
           <meta name="robots" content="noindex" />
         )}
       </Helmet>

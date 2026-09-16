@@ -11,7 +11,7 @@ import {
   formatDate,
   insertInlineAdAfterFirstParagraph
 } from "../utils/content"
-import { getCategoryIds, getReadTime, stripHtml } from "../utils/wp"
+import { getCategoryIds, getFeaturedImage, getReadTime, stripHtml } from "../utils/wp"
 import { getPageUrl } from "../utils/site"
 import ProgressBar from "../components/ProgressBar"
 import LoadingSkeleton from "../components/LoadingSkeleton"
@@ -52,16 +52,18 @@ function ArticlePage() {
 
   const readTime = getReadTime(post.content?.rendered || "")
   const canonical = getPageUrl(`/article/${slug}`)
+  const articleTitle = stripHtml(post.title?.rendered || "Untitled story")
   const description = stripHtml(post.excerpt?.rendered || "")
-  const shareUrl = encodeURIComponent(canonical)
-  const shareTitle = encodeURIComponent(stripHtml(post.title?.rendered || ""))
-  const heroImage = heroFailed ? "" : sanitized.hero?.src || ""
+  const encodedShareUrl = encodeURIComponent(canonical)
+  const encodedShareTitle = encodeURIComponent(articleTitle)
+  const whatsappMessage = encodeURIComponent(`${articleTitle}\n${canonical}`)
+  const heroImage = heroFailed ? "" : getFeaturedImage(post) || sanitized.hero?.src || ""
   const related = relatedPosts.filter((item) => item.id !== post.id).slice(0, 3)
   const showRelated = related.length >= 3
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "NewsArticle",
-    headline: stripHtml(post.title?.rendered || ""),
+    headline: articleTitle,
     image: heroImage ? [heroImage] : undefined,
     datePublished: post.date,
     dateModified: post.modified || post.date,
@@ -89,14 +91,24 @@ function ArticlePage() {
   return (
     <article className="article-page">
       <Helmet>
-        <title>{post.title?.rendered} | StartupFlash</title>
+        <title>{articleTitle} | StartupFlash</title>
         <meta name="description" content={description} />
         <meta property="og:type" content="article" />
-        <meta property="og:title" content={post.title?.rendered || ""} />
+        <meta property="og:site_name" content="StartupFlash" />
+        <meta property="og:title" content={articleTitle} />
         <meta property="og:description" content={description} />
         {heroImage && <meta property="og:image" content={heroImage} />}
         {canonical && <meta property="og:url" content={canonical} />}
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={articleTitle} />
+        <meta name="twitter:description" content={description} />
+        {heroImage && <meta name="twitter:image" content={heroImage} />}
+        {post.date && <meta property="article:published_time" content={post.date} />}
+        {post.modified && <meta property="article:modified_time" content={post.modified} />}
+        <meta
+          property="article:author"
+          content={post._embedded?.author?.[0]?.name || "StartupFlash"}
+        />
         {canonical && <link rel="canonical" href={canonical} />}
         <script type="application/ld+json">
           {JSON.stringify(jsonLd)}
@@ -132,21 +144,21 @@ function ArticlePage() {
         <span>Share</span>
         <button onClick={handleCopy} type="button"><LinkIcon size={12} aria-hidden="true" /> Copy link</button>
         <a
-          href={`https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareTitle}`}
+          href={`https://twitter.com/intent/tweet?url=${encodedShareUrl}&text=${encodedShareTitle}`}
           target="_blank"
           rel="noreferrer"
         >
           X / Twitter
         </a>
         <a
-          href={`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`}
+          href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedShareUrl}`}
           target="_blank"
           rel="noreferrer"
         >
           LinkedIn
         </a>
         <a
-          href={`https://api.whatsapp.com/send?text=${shareTitle}%20${shareUrl}`}
+          href={`https://api.whatsapp.com/send?text=${whatsappMessage}`}
           target="_blank"
           rel="noreferrer"
         >
@@ -174,21 +186,21 @@ function ArticlePage() {
           <span>Share</span>
           <button onClick={handleCopy} type="button">Copy link</button>
           <a
-            href={`https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareTitle}`}
+            href={`https://twitter.com/intent/tweet?url=${encodedShareUrl}&text=${encodedShareTitle}`}
             target="_blank"
             rel="noreferrer"
           >
             X / Twitter
           </a>
           <a
-            href={`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`}
+            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedShareUrl}`}
             target="_blank"
             rel="noreferrer"
           >
             LinkedIn
           </a>
           <a
-            href={`https://api.whatsapp.com/send?text=${shareTitle}%20${shareUrl}`}
+            href={`https://api.whatsapp.com/send?text=${whatsappMessage}`}
             target="_blank"
             rel="noreferrer"
           >

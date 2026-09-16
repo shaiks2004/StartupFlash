@@ -1,0 +1,45 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # --------------------------------------------------
+    # OLD WORDPRESS URLS -> NEW REACT ROUTES
+    # --------------------------------------------------
+
+    RewriteRule ^about/?$ /about-us/ [R=301,L]
+    RewriteRule ^contact-us/?$ /contact/ [R=301,L]
+
+    RewriteRule ^category/flash-view/?$ /flash-view/ [R=301,L]
+    RewriteRule ^category/metrics/?$ /metrics/ [R=301,L]
+    RewriteRule ^category/funding/?$ /funding/ [R=301,L]
+    RewriteRule ^category/founders/?$ /founders/ [R=301,L]
+    RewriteRule ^category/companies/?$ /companies/ [R=301,L]
+    RewriteRule ^category/library/?$ /library/ [R=301,L]
+
+    # --------------------------------------------------
+    # ARTICLE METADATA FOR SOCIAL CRAWLERS
+    # --------------------------------------------------
+
+    RewriteRule ^article/([A-Za-z0-9-]+)/?$ article-meta.php?slug=$1 [L,QSA]
+
+    # --------------------------------------------------
+    # EXISTING FILES AND DIRECTORIES
+    # --------------------------------------------------
+
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # --------------------------------------------------
+    # STATIC FILES
+    # --------------------------------------------------
+
+    RewriteRule ^assets(?:/|$) - [L]
+    RewriteRule ^(?:favicon[^/]*|robots\.txt|ads\.txt|sitemap\.xml)$ - [L]
+
+    # --------------------------------------------------
+    # REACT / VITE SPA FALLBACK
+    # --------------------------------------------------
+
+    RewriteRule ^ index.html [L]
+
+</IfModule>
